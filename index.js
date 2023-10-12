@@ -149,7 +149,7 @@ console.log(OrtalamaGolSayisi(Finaller(fifaData)))
 	İpucu: "takım kısaltmaları" (team initials) için datada araştırma yapın!
 İpucu: `.reduce` Kullanın*/
 
-function UlkelerinKazanmaSayilari(/* kodlar buraya */) {
+function UlkelerinKazanmaSayilari(data,takimKisaltmalari) {
 	
     /* key olarak object yaratıp value olarak kazanma ( for döngü , if  ile kazanan takım, boş obje oluşturup, kazanan takım varmı, yokmu diye bak. 
 		varsa 1 ekle, daha önce kazanmış ise sıfır) */
@@ -161,22 +161,93 @@ function UlkelerinKazanmaSayilari(/* kodlar buraya */) {
 /*  BONUS 2:  
 EnCokGolAtan() isminde bir fonksiyon yazın, `data` yı parametre olarak alsın ve Dünya kupası finallerinde en çok gol atan takımı döndürsün */
 
-function EnCokGolAtan(/* kodlar buraya */) {
+function EnCokGolAtan(data) {
 	
-    /* kodlar buraya */
-	
+   let depo ={};
+
+   let finaller =data.filter((element) => {
+	return element.Stage == "Final"
+   })
+   finaller.forEach(element => {
+	if (depo[element["Home Team Name"]] == undefined) {
+		depo[element["Home Team Name"]] = element["Home Team Goals"]
+	}
+	else { 
+		depo[element["Home Team Name"]] += element["Home Team Goals"]
+
+	}
+	if (depo[element["Away Team Name"]] == undefined) {
+		depo[element["Away Team Name"]] = element["Away Team Goals"]
+	}
+	else { 
+		depo[element["Away Team Name"]] += element["Away Team Goals"]
+
+	}
+   });
+   console.log(depo);	
+   let max = 0;
+let result = "";
+
+for(let key in depo){
+
+	if(depo[key] > max){
+
+		max = depo[key];
+
+	result = key;
+	}
 }
 
+return result;
+
+}
+
+console.log(EnCokGolAtan(fifaData))
 
 /*  BONUS 3: 
 EnKotuDefans() adında bir fonksiyon yazın, `data` yı parametre olarak alsın ve Dünya kupasında finallerinde en çok golü yiyen takımı döndürsün*/
 
-function EnKotuDefans(/* kodlar buraya */) {
-	
-    /* kodlar buraya */
-	
+function EnKotuDefans(data) {
+	let depo ={};
+
+   let finaller =data.filter((element) => {
+	return element.Stage == "Final"
+   })
+   finaller.forEach(element => {
+	if (depo[element["Home Team Name"]] == undefined) {
+		depo[element["Home Team Name"]] = element["Away Team Goals"]
+	}
+	else { 
+		depo[element["Home Team Name"]] += element["Away Team Goals"]
+
+	}
+	if (depo[element["Away Team Name"]] == undefined) {
+		depo[element["Away Team Name"]] = element["Home Team Goals"]
+	}
+	else { 
+		depo[element["Away Team Name"]] += element["Home Team Goals"]
+
+	}
+   });
+   console.log(depo);	
+   let max = 0;
+let result = "";
+
+for(let key in depo){
+
+	if(depo[key] > max){
+
+		max = depo[key];
+
+	result = key;
+	}
 }
 
+return result;
+
+}
+
+console.log(EnKotuDefans(fifaData))
 
 /* Hala vaktiniz varsa, README dosyasında listelenen hedeflerden istediğinizi aşağıdaki boşluğa yazabilirsiniz. */
 
